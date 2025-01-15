@@ -1,10 +1,10 @@
 const express = require('express'); //Importar express
+const ProductsService = require('./../services/products.service'); //Importar el servicio de productos
 const router = express.Router();
+const service = new ProductsService(); //Instanciar el servicio de productos
 
 router.get('/', (req, res) => {
-  const products = [];
-  const { size } = req.query;
-
+  const products = service.find();
   res.json(products);
 });
 
@@ -14,35 +14,21 @@ router.get('/filter', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
-  if (id === '123') {
-    res.status(404).json({
-      message: 'Not found',
-    });
-  } else {
-    res.status(200).json({
-      id: id,
-      name: 'Producto 2',
-      price: 120,
-    });
-  }
+  const product = service.findOne(id);
+  res.json(product);
 });
 
 router.post('/', (req, res) => {
   const body = req.body;
-  res.status(201).json({
-    message: 'Registro creado',
-    data: body,
-  });
+  const newProduct = service.create(body);
+  res.status(201).json(newProduct);
 });
 
 router.patch('/:id', (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  res.json({
-    message: 'Registro actualizado con patch',
-    data: body,
-    id,
-  });
+  const product = service.update(id, body);
+  res.json(product);
 });
 
 router.put('/:id', (req, res) => {
@@ -57,10 +43,8 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
-    message: 'Registro eliminado',
-    id,
-  });
+  const product = service.delete(id);
+  res.json(product);
 });
 
 module.exports = router;
