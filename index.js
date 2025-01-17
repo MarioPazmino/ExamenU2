@@ -1,6 +1,6 @@
 const express = require('express'); // Importar express
 const routerApi = require('./routes'); // Importar las rutas
-const { logErrors, errorHandler } = require('./middlewares/error.handler');
+const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/error.handler');
 const app = express(); // Asignar express a mi aplicación
 const port = 3000; // Asignación puerto donde se ejecutará el proy
 app.use(express.json());
@@ -13,7 +13,9 @@ app.get('/nueva-ruta', (req, res) => {
 });
 
 routerApi(app);
+
 app.use(logErrors);
+app.use(boomErrorHandler);
 app.use(errorHandler);
 
 app.listen(port, () => {
