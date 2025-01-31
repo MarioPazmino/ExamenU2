@@ -6,6 +6,7 @@ class ProductsService {
   constructor() {
     this.products = [];
     this.generate();
+ 
   }
 
   generate() {
@@ -29,13 +30,11 @@ class ProductsService {
     this.products.push(newProduct);
     return newProduct;
   }
-
   async find() {
     const query = 'SELECT * FROM tasks';
     const [data] = await sequelize.query(query);
     return data;
   }
-
   async findOne(id) {
     const product = this.products.find((item) => item.id === id);
     if (!product) {
@@ -46,7 +45,6 @@ class ProductsService {
     }
     return product;
   }
-
   async update(id, changes) {
     const index = this.products.findIndex((item) => item.id === id);
     if (index === -1) {
@@ -61,12 +59,12 @@ class ProductsService {
   }
 
   async delete(id) {
-    const index = this.products.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('product not found');
+    const query = 'UPDATE proveedores SET estado = false WHERE id = $1 RETURNING *';
+    const result = await this.pool.query(query, [id]);
+    if (result.rows.length === 0) {
+      throw boom.notFound('Proveedor no encontrado');
     }
-    this.products.splice(index, 1);
-    return { id };
+    return result.rows[0];
   }
 }
 

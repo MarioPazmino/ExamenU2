@@ -1,3 +1,4 @@
+//middleware/error.handler.js
 function logErrors(err, req, res, next) {
   console.error(err);
   next(err);

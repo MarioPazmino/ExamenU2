@@ -1,5 +1,4 @@
 const express = require('express');
-
 const CategoryService = require('./../services/category.service');
 const validatorHandler = require('./../middlewares/validator.handler');
 const {
@@ -10,7 +9,6 @@ const {
 
 const router = express.Router();
 const service = new CategoryService();
-
 router.get('/', async (req, res, next) => {
   try {
     const categories = await service.find();
@@ -19,7 +17,6 @@ router.get('/', async (req, res, next) => {
     next(error);
   }
 });
-
 router.get(
   '/:id',
   validatorHandler(getCategorySchema, 'params'),

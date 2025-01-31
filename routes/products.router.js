@@ -47,7 +47,6 @@ router.post(
     }
   },
 );
-
 router.patch(
   '/:id',
   validatorHandler(getProductSchema, 'params'),

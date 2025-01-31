@@ -1,3 +1,4 @@
+//libs/postgres.pool.js
 const { Pool } = require('pg');
 const { config } = require('./../config/config');
 const USER = encodeURIComponent(config.dbUser);

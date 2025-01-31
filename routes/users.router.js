@@ -9,7 +9,6 @@ const {
 
 const router = express.Router();
 const service = new UserService();
-
 router.get('/', async (req, res, next) => {
   try {
     const users = await service.find();
@@ -18,7 +17,6 @@ router.get('/', async (req, res, next) => {
     next(error);
   }
 });
-
 router.get(
   '/:id',
   validatorHandler(getUserSchema, 'params'),
